@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = 3000;
 
+app.use(express.json());
+
 // подключение к БД
 mongoose
   .connect("mongodb://localhost:27017/todo-list")
@@ -11,14 +13,11 @@ mongoose
     console.log("Connected to MongoDB");
   })
   .catch((err) => {
-    console.log("MongoDB connection error:", err);
+    console.error("MongoDB connection error:", err);
   });
 
-const todoRoutes = require("./routes/todo");
-app.use("/todos", todoRoutes);
-app.get("/", (req, res) => {
-  res.redirect("/todos");
-});
+const taskRoutes = require("./routes/task");
+app.use("/tasks", taskRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
